@@ -1,0 +1,134 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Corpo */
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cabeçalho */
+.cabecalho {
+    width: 100%;
+    background: #2c3e50;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cabecalho h1 {
+    font-size: 20px;
+}
+
+.botao-login {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.botao-login:hover {
+    background: #c0392b;
+}
+
+/* Layout Principal */
+.container {
+    display: flex;
+    margin-top: 80px;
+}
+
+/* Menu Lateral */
+.menu-lateral {
+    width: 250px;
+    background: #34495e;
+    color: white;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 60px;
+}
+
+.menu-lateral h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.menu-lateral ul {
+    list-style: none;
+}
+
+.menu-lateral ul li {
+    margin: 10px 0;
+}
+
+.menu-lateral ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.menu-lateral ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Área de Anúncios */
+.area-anuncios {
+    margin-left: 270px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Anúncios estilo Post-it */
+.anuncio {
+    background: #f9dc5c;
+    color: #333;
+    padding: 20px;
+    width: 220px;
+    height: 200px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    transform: rotate(-3deg);
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.anuncio:hover {
+    transform: rotate(0deg);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Rodapé */
+.rodape {
+    width: 100%;
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: absolute;
+    bottom: 0;
+}
+
