@@ -8,3 +8,5 @@ ApConect
 estimulando a economia local e fortalecendo as relaçoes entre condôminos,
 
 Aplicação é bem intuitiva e esta em fase de desenvolvimento, podendo ser alterada futuramente
+
+Obs: após o deploy atualizarei o link aqui.
