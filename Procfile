@@ -1,1 +1,1 @@
-web: gunicorn pi2025.wsgi
+web: gunicorn pi2025.wsgi --log-file -
