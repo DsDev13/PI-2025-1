@@ -16,5 +16,6 @@ urlpatterns = [
     path('deletar/<int:anuncio_id>/', views.deletar_anuncio, name='deletar_anuncio'),
 ]
 
-# Adicione essa linha para servir arquivos de mídia (imagens dos anúncios)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve arquivos de mídia apenas em modo de desenvolvimento
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
