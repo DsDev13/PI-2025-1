@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ApConect - PI1-2025</title>
+    <script src="{% static 'apconect/js/script.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'apconect/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <button class="menu-toggle">&#9776;</button>
+        <div class="logo">
+            <a href="{% url 'home' %}"><img src="{% static 'apconect/img/logoHexago.png' %}" alt="Logo ApConect"
+                    style="height: 80px;"></a>
+        </div>
+        
+        <div class="user-actions">
+            {% if user.is_authenticated %}
+            <span>Olá, {{ user.username }}!</span>
+            <a href="{% url 'meus_anuncios' %}" class="login-btn">Meus Anúncios</a>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="login-btn">Sair</button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <button>ESCOLHA POR CATEGORIAS</button>
+            <a href="{% url 'filtrar_por_categoria' 'infra' %}"><button>INFRA ESTRUTURA</button></a>
+            <a href="{% url 'filtrar_por_categoria' 'alimentos' %}"><button>ALIMENTOS</button></a>
+            <a href="{% url 'filtrar_por_categoria' 'servicos' %}"><button>SERVIÇOS</button></a>
+            <a href="{% url 'filtrar_por_categoria' 'vendas' %}"><button>VENDAS</button></a>
+            <a href="{% if user.is_authenticated %}{% url 'criar_anuncio' %}{% else %}{% url 'login' %}{% endif %}">
+                <button>FAÇA SEU ANÚNCIO</button>
+            </a>
+        </div>
+
+        <div class="main">
+            {% block content %}
+            <!-- Conteúdo específico de cada página vai aqui -->
+            {% endblock %}
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Todos os direitos reservados &copy; Projeto Integrador 2025</p>
+    </footer>
+
+   
+</body>
+
+</html>

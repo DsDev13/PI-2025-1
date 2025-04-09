@@ -1,0 +1,8 @@
+{% extends 'apconect/base.html' %}
+{% block content %}
+<div class="form-container">
+    <h2>Você saiu da sua conta.</h2>
+    <a href="{% url 'login' %}" class="login-btn">Fazer login novamente</a>
+    <a href="{% url 'home' %}" class="login-btn">Voltar para a página inicial</a>
+</div>
+{% endblock %}

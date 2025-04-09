@@ -1,0 +1,18 @@
+{% extends 'apconect/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Crie sua conta no ApConect</h2>
+    <p>Preencha os campos abaixo para se cadastrar:</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <p>Já tem uma conta?</p>
+    <a class="botao_login" href="{% url 'login' %}">Clique aqui para fazer login</a>
+</div>
+{% endblock %}

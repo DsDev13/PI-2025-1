@@ -1,0 +1,22 @@
+{% extends 'apconect/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Bem-vindo de volta ao ApConect</h2>
+    <p>Entre com seu usuário e senha para acessar sua conta.</p>
+
+    {% if form.errors %}
+        <p style="color: red;">Usuário ou senha inválidos. Tente novamente.</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Entrar</button>
+    </form>
+
+    <p>Não tem uma conta?</p>
+    <a href="{% url 'cadastro' %}">Clique aqui para se cadastrar</a>
+</div>
+{% endblock %}

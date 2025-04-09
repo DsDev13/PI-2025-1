@@ -1,0 +1,29 @@
+{% extends 'apconect/base.html' %}
+
+{% block content %}
+  <h2 style="text-align: center; color: #009688;">Meus Anúncios</h2>
+
+  {% if anuncios %}
+    <div class="cards">
+      {% for anuncio in anuncios %}
+        <div class="card anuncio">
+          {% if anuncio.imagem %}
+            <img src="{{ anuncio.imagem.url }}" alt="{{ anuncio.titulo }}" class="card-img">
+          {% endif %}
+
+          <h3>{{ anuncio.titulo }}</h3>
+          <p>{{ anuncio.descricao }}</p>
+
+          <span class="categoria">{{ anuncio.get_categoria_display }}</span>
+
+          <div class="card-actions">
+            <a href="{% url 'editar_anuncio' anuncio.id %}" class="btn-editar">Editar</a>
+            <a href="{% url 'deletar_anuncio' anuncio.id %}" class="btn-excluir">Excluir</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p style="text-align: center;">Você ainda não criou nenhum anúncio.</p>
+  {% endif %}
+{% endblock %}

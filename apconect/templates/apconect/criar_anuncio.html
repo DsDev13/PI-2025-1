@@ -1,0 +1,15 @@
+{% extends 'apconect/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Crie seu anúncio</h2>
+    <p>Preencha os campos abaixo para divulgar seu serviço ou produto no ApConect.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Publicar Anúncio</button>
+    </form>
+</div>
+{% endblock %}
