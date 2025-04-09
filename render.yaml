@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: apconect-pi
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn pi2025.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: pi2025.settings
