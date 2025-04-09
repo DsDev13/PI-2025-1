@@ -170,6 +170,15 @@ body, html {
     color: #00796B;
     text-decoration: none;
 }
+.card-img {
+    width: 50% !important;
+    max-height: 250px !important;
+    object-fit: cover !important;
+    border-radius: 10px;
+    margin: 10px auto;
+    display: block;
+}
+
 
 /* Footer */
 .footer {
@@ -238,6 +247,8 @@ button.active-click {
     gap: 20px;
     margin-top: 30px;
 }
+
+
 
 .card.anuncio {
     background-color: #ffffff;
