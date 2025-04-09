@@ -6,9 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Segurança
 SECRET_KEY = os.environ.get('SECRET_KEY', 'chave-padrao-insegura')
-
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 # Aplicativos instalados
@@ -22,9 +20,10 @@ INSTALLED_APPS = [
     'apconect',
 ]
 
-# Middleware padrão
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Habilita arquivos estáticos no Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -35,6 +34,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'pi2025.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -81,12 +81,16 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'apconect/static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# WhiteNoise - compressão e cache dos arquivos estáticos
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Arquivos de mídia (uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Tipo de chave primária padrão
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Redirecionamento após login/logout
+# Redirecionamentos de login/logout
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
