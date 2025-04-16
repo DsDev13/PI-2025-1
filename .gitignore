@@ -15,3 +15,11 @@ __pycache__/
 # Ambientes virtuais
 venv/
 .env/
+
+#DOCKER
+Dockerfile
+docker-compose.yml
+
+#BAnco antigo
+*.sqlite3
+db.sqlite3
