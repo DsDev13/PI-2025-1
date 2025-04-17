@@ -105,11 +105,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
-import django
-from django.core.management import call_command
+# Forçar migrações automaticamente no Render
+if os.environ.get('RENDER', '') == 'true':
+    import django
+    from django.core.management import call_command
+    try:
+        django.setup()
+        call_command('migrate', interactive=False)
+    except Exception as e:
+        print("Erro ao aplicar migrations automaticamente:", e)
 
-try:
-    django.setup()
-    call_command('migrate', interactive=False)
-except Exception as e:
-    print("Erro ao aplicar migrations automaticamente:", e)
