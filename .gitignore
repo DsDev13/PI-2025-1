@@ -5,7 +5,6 @@ __pycache__/
 # Django
 
 /media/
-/staticfiles/
 /.env
 
 # VSCode ou outros editores
