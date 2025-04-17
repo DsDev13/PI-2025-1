@@ -1,9 +1,31 @@
 services:
   - type: web
-    name: apconect-pi
+    name: apconect
     env: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn pi2025.wsgi:application"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py migrate && gunicorn pi2025.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: pi2025.settings
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        value: your-secret
+      - key: POSTGRES_DB
+        fromDatabase:
+          name: apconect-db
+          property: database
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: apconect-db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: apconect-db
+          property: password
+      - key: POSTGRES_HOST
+        fromDatabase:
+          name: apconect-db
+          property: host
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: apconect-db
+          property: port
