@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .models import Anuncio
 from .forms import AnuncioForm
+from .forms import RegistroUsuarioForm
 
 
 def home(request):
@@ -13,13 +13,13 @@ def home(request):
 
 def registrar_usuario(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
             usuario = form.save()
             login(request, usuario)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = RegistroUsuarioForm()
     return render(request, 'apconect/cadastro.html', {'form': form})
 
 def filtrar_por_categoria(request, categoria):
