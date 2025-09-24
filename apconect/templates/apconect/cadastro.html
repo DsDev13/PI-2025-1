@@ -6,13 +6,80 @@
     <h2>Crie sua conta no ApConect</h2>
     <p>Preencha os campos abaixo para se cadastrar:</p>
 
-    <form method="post">
+      <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <p>{{ form.username.label_tag }} {{ form.username }}</p>
+        <p>{{ form.email.label_tag }} {{ form.email }}</p>
+        
+        <hr>
+        <h4>Endereço</h4>
+        <p>{{ form.cep.label_tag }} {{ form.cep }} <small>Após digitar o CEP, os outros campos serão preenchidos.</small></p>
+        <p>{{ form.logradouro.label_tag }} {{ form.logradouro }}</p>
+        <p>{{ form.numero.label_tag }} {{ form.numero }}</p>
+        <p>{{ form.bairro.label_tag }} {{ form.bairro }}</p>
+        <p>{{ form.cidade.label_tag }} {{ form.cidade }}</p>
+        <p>{{ form.estado.label_tag }} {{ form.estado }}</p>
+        
+        <hr>
+        <h4>Senha</h4>
+        <p>{{ form.password1.label_tag }} {{ form.password1 }}</p>
+        <p>{{ form.password2.label_tag }} {{ form.password2 }}</p>
+        
+        {% if form.errors %}
+            <div class="form-errors">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+        
         <button type="submit">Cadastrar</button>
     </form>
 
     <p>Já tem uma conta?</p>
     <a class="botao_login" href="{% url 'login' %}">Clique aqui para fazer login</a>
 </div>
+
+<script>
+    // Pega os elementos do formulário
+    const cepInput = document.getElementById('{{ form.cep.id_for_label }}');
+    const logradouroInput = document.getElementById('{{ form.logradouro.id_for_label }}');
+    const bairroInput = document.getElementById('{{ form.bairro.id_for_label }}');
+    const cidadeInput = document.getElementById('{{ form.cidade.id_for_label }}');
+    const estadoInput = document.getElementById('{{ form.estado.id_for_label }}');
+    const numeroInput = document.getElementById('{{ form.numero.id_for_label }}');
+
+    // Adiciona um "escutador de eventos" para quando o usuário sair do campo CEP
+    cepInput.addEventListener('blur', () => {
+        let cep = cepInput.value.replace('-', ''); // Remove o traço se houver
+
+        if (cep.length !== 8) {
+            return; // CEP inválido
+        }
+
+        // Faz a requisição para a API do ViaCEP
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.erro) {
+                    alert('CEP não encontrado.');
+                    return;
+                }
+
+                // Preenche os campos com os dados retornados
+                logradouroInput.value = data.logradouro;
+                bairroInput.value = data.bairro;
+                cidadeInput.value = data.localidade;
+                estadoInput.value = data.uf;
+
+                // Deixa os campos de endereço somente leitura e foca no campo "número"
+                logradouroInput.readOnly = true;
+                bairroInput.readOnly = true;
+                cidadeInput.readOnly = true;
+                estadoInput.readOnly = true;
+                numeroInput.focus();
+            })
+            .catch(error => console.error('Ocorreu um erro:', error));
+    });
+</script>
+
 {% endblock %}
