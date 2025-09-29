@@ -40,7 +40,15 @@ class RegistroUsuarioForm(UserCreationForm):
             )
         return user
 
+
 class AnuncioForm(forms.ModelForm):
+    cep = forms.CharField(max_length=9, label='CEP', required=False)
+    endereco_exibicao = forms.CharField(
+        required=False,
+        label='Endereço para exibição',
+        help_text='Preencha o CEP e o endereço será preenchido automaticamente. Complete com o número.'
+    )
+
     class Meta:
         model = Anuncio
-        fields = ['titulo', 'descricao', 'categoria', 'imagem']
+        fields = ['titulo', 'descricao', 'categoria', 'imagem', 'cep', 'endereco_exibicao']

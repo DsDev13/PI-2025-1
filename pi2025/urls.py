@@ -14,6 +14,8 @@ urlpatterns = [
     path('categoria/<str:categoria>/', views.filtrar_por_categoria, name='filtrar_por_categoria'),
     path('editar/<int:anuncio_id>/', views.editar_anuncio, name='editar_anuncio'),
     path('deletar/<int:anuncio_id>/', views.deletar_anuncio, name='deletar_anuncio'),
+    path('anuncio/<int:anuncio_id>/', views.anuncio_detalhe, name='anuncio_detalhe'),
+    path('anuncio/<int:anuncio_id>/chat/', views.chat_anuncio, name='chat_anuncio'),
 ]
 
 # Serve arquivos de mídia apenas em modo de desenvolvimento

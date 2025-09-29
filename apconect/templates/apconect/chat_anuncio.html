@@ -1,0 +1,36 @@
+{% extends 'apconect/base.html' %}
+{% block content %}
+<div class="chat-container">
+    <h2>Chat do Anúncio: {{ anuncio.titulo }}</h2>
+    <div class="chat-mensagens">
+        {% for msg in mensagens %}
+            <div class="chat-msg {% if msg.remetente == user %}chat-msg-eu{% else %}chat-msg-eles{% endif %}">
+                <strong>{{ msg.remetente.username }}</strong>:
+                <span>{{ msg.texto }}</span>
+                <div class="chat-msg-data">{{ msg.data_envio|date:'d/m/Y H:i' }}</div>
+            </div>
+        {% empty %}
+            <p>Nenhuma mensagem ainda.</p>
+        {% endfor %}
+    </div>
+    <form method="post" class="chat-form">
+        {% csrf_token %}
+        {% if interessados %}
+            <label for="destinatario_id">Responder para:</label>
+            <select name="destinatario_id" id="destinatario_id" required>
+                <option value="">Selecione o interessado</option>
+                {% for interessado in interessados %}
+                    <option value="{{ interessado.id }}">{{ interessado.username }}</option>
+                {% endfor %}
+            </select>
+        {% else %}
+            <input type="hidden" name="destinatario_id" value="{% if destinatario %}{{ destinatario.id }}{% endif %}">
+        {% endif %}
+        <textarea name="texto" rows="2" placeholder="Digite sua mensagem..." required></textarea>
+        <div class="chat-form-botoes">
+            <button type="submit">Enviar</button>
+            <a href="{% url 'anuncio_detalhe' anuncio.id %}" class="btn-editar">Voltar ao anúncio</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

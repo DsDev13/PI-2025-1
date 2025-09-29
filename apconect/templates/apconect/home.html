@@ -1,34 +1,56 @@
 {% extends 'apconect/base.html' %}
+<!-- filtro customizado removido -->
 
 {% block content %}
-<div style="text-align: center; margin-bottom: 20px;">
-    <input type="text" id="filtro-anuncio" placeholder="O que você precisa hoje?" style="padding: 10px; width: 80%; max-width: 400px; border-radius: 8px; border: 1px solid #ccc;">
+<main role="main">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <input type="text" id="filtro-anuncio" placeholder="O que você precisa hoje?" aria-label="Filtrar anúncios" tabindex="1" style="padding: 10px; width: 80%; max-width: 400px; border-radius: 8px; border: 1px solid #ccc;">
   </div>
-  <h2 style="text-align: center; color: #009688;">Anúncios Recentes</h2>
+  <h2 style="text-align: center; color: #009688;" id="anuncios-recentes">Anúncios Recentes</h2>
 
   {% if anuncios %}
 
-    <div class="cards">
+  <div class="cards" role="list" aria-labelledby="anuncios-recentes">
       {% for anuncio in anuncios %}
-        <div class="card anuncio">
-          {% if anuncio.imagem %}
-            <img src="{{ anuncio.imagem.url }}" alt="{{ anuncio.titulo }}" class="card-img">
-          {% endif %}
-
-          <h3>{{ anuncio.titulo }}</h3>
-          <p>{{ anuncio.descricao }}</p>
-          <span class="categoria">{{ anuncio.get_categoria_display }}</span>
-
+        <section class="card anuncio" role="listitem" aria-labelledby="anuncio-titulo-{{ anuncio.id }}">
+          <a href="{% url 'anuncio_detalhe' anuncio.id %}" style="text-decoration:none;color:inherit;cursor:pointer;display:block;outline:none;" aria-labelledby="anuncio-titulo-{{ anuncio.id }}" tabindex="2">
+            {% if anuncio.imagem %}
+              <img src="{{ anuncio.imagem.url }}" alt="Imagem do anúncio {{ anuncio.titulo }}" class="card-img">
+            {% endif %}
+            <h3 id="anuncio-titulo-{{ anuncio.id }}">{{ anuncio.titulo }}</h3>
+            <p>
+              {% if anuncio.descricao|length > 120 %}
+                {{ anuncio.descricao|slice:":120" }}... <span style="color:#888;font-size:12px;">(clique para ver mais)</span>
+              {% else %}
+                {{ anuncio.descricao }}
+              {% endif %}
+            </p>
+            {% if anuncio.endereco_exibicao %}
+            <p class="anuncio-endereco" style="color:#555; font-size:13px; margin-bottom:0;">
+              <b>Endereço:</b> {{ anuncio.endereco_exibicao }}
+            </p>
+            {% endif %}
+            <span class="categoria" aria-label="Categoria: {{ anuncio.get_categoria_display }}">{{ anuncio.get_categoria_display }}</span>
+          </a>
           {% if user.is_authenticated and anuncio.usuario == user %}
-            <div class="card-actions">
-              <a href="{% url 'editar_anuncio' anuncio.id %}" class="btn-editar">Editar</a>
-              <a href="{% url 'deletar_anuncio' anuncio.id %}" class="btn-excluir">Excluir</a>
-            </div>
+            <nav class="card-actions" aria-label="Ações do anúncio {{ anuncio.titulo }}">
+              <a href="{% url 'editar_anuncio' anuncio.id %}" class="btn-editar" aria-label="Editar anúncio {{ anuncio.titulo }}" tabindex="3">Editar</a>
+              <a href="{% url 'deletar_anuncio' anuncio.id %}" class="btn-excluir" aria-label="Excluir anúncio {{ anuncio.titulo }}" tabindex="4">Excluir</a>
+              <a href="{% url 'chat_anuncio' anuncio.id %}" class="btn-chat" aria-label="Abrir chat do anúncio {{ anuncio.titulo }}" tabindex="5">Chat</a>
+            </nav>
           {% endif %}
-        </div>
+        </section>
       {% endfor %}
     </div>
   {% else %}
-    <p style="text-align: center; color: #555;">Não há anúncios cadastrados no momento.</p>
+    <p style="text-align: center; color: #555;" role="status">Não há anúncios cadastrados no momento.</p>
   {% endif %}
+  <style>
+    a:focus, input:focus, button:focus {
+      outline: 2px solid #009688;
+      outline-offset: 2px;
+      background: #e0f7fa;
+    }
+  </style>
+</main>
 {% endblock %}

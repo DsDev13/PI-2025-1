@@ -5,11 +5,46 @@
 <div class="form-container">
     <h2>Crie seu anúncio</h2>
     <p>Preencha os campos abaixo para divulgar seu serviço ou produto no ApConect.</p>
+    <div style="background: #fff3cd; color: #856404; border: 1px solid #ffeeba; border-radius: 6px; padding: 10px 16px; margin-bottom: 18px; font-size: 15px;">
+        <b>Aviso de segurança:</b> O endereço informado será exibido publicamente no anúncio. Só preencha se for endereço comercial. <b>Nunca informe endereço residencial.</b>
+    </div>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+    <p>{{ form.titulo.label_tag }} {{ form.titulo }}</p>
+    <p>{{ form.descricao.label_tag }} {{ form.descricao }}</p>
+    <p>{{ form.categoria.label_tag }} {{ form.categoria }}</p>
+    <p>{{ form.imagem.label_tag }} {{ form.imagem }}</p>
+    <p>{{ form.cep.label_tag }} {{ form.cep }}</p>
+    <p>{{ form.endereco_exibicao.label_tag }} {{ form.endereco_exibicao }}</p>
+    <small>{{ form.endereco_exibicao.help_text }}</small>
         <button type="submit">Publicar Anúncio</button>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(function() {
+        function limpa_formulario_cep() {
+            $("#id_endereco_exibicao").val("");
+        }
+        $("#id_cep").blur(function() {
+            var cep = $(this).val().replace(/\D/g, '');
+            if (cep.length === 8) {
+                $("#id_endereco_exibicao").val("Consultando...");
+                $.getJSON("https://viacep.com.br/ws/" + cep + "/json/", function(dados) {
+                    if (!('erro' in dados)) {
+                        var endereco = dados.logradouro + (dados.bairro ? ", " + dados.bairro : "") + (dados.localidade ? " - " + dados.localidade : "") + (dados.uf ? "/" + dados.uf : "");
+                        $("#id_endereco_exibicao").val(endereco + ", Nº ");
+                    } else {
+                        limpa_formulario_cep();
+                        alert("CEP não encontrado.");
+                    }
+                });
+            } else {
+                limpa_formulario_cep();
+            }
+        });
+    });
+    </script>
     </form>
 </div>
 {% endblock %}

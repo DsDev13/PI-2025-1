@@ -1,0 +1,17 @@
+{% extends 'apconect/base.html' %}
+
+{% block content %}
+<div class="anuncio-detalhe-full">
+    <div class="anuncio-detalhe-flex">
+        {% if anuncio.imagem %}
+            <img src="{{ anuncio.imagem.url }}" alt="{{ anuncio.titulo }}" class="anuncio-detalhe-img-full">
+        {% endif %}
+        <div class="anuncio-detalhe-info">
+            <h2>{{ anuncio.titulo }}</h2>
+            <p class="anuncio-detalhe-descricao-full">{{ anuncio.descricao }}</p>
+            <a href="{% url 'chat_anuncio' anuncio.id %}" class="btn-chat">Abrir Chat</a>
+            <a href="javascript:history.back()" class="btn-editar">Voltar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
