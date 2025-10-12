@@ -17,7 +17,7 @@
             <a href="{% url 'home' %}"><img src="{% static 'apconect/img/logoHexago.png' %}" alt="Logo ApConect"
                     style="height: 80px;"></a>
         </div>
-        
+        <div class="banner"><img src="{% static 'apconect/img/banner_ajustado2.png' %}" alt="User Icon"></div>
         <div class="user-actions">
             {% if user.is_authenticated %}
             <span>Olá, {{ user.username }}!</span>
