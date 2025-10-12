@@ -46,6 +46,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Anuncio
 from .forms import AnuncioForm
 from .forms import RegistroUsuarioForm
+from .utils.supabase_storage import upload_file_to_supabase
+import os
 
 
 def home(request):
@@ -90,6 +92,18 @@ def criar_anuncio(request):
         if form.is_valid():
             anuncio = form.save(commit=False)
             anuncio.usuario = request.user
+            # Se houver arquivo enviado, tente enviar ao Supabase Storage e salvar a URL
+            if request.FILES.get('imagem'):
+                file = request.FILES['imagem']
+                # nome no bucket: anuncios/<user>-<timestamp>-<nome>
+                import time
+                filename = f"anuncios/{request.user.id}-{int(time.time())}-{file.name}"
+                try:
+                    url = upload_file_to_supabase(os.environ.get('SUPABASE_BUCKET', 'media'), file, filename)
+                    anuncio.imagem_url = url
+                except Exception as e:
+                    # fallback: salva localmente se supabase não configurado
+                    anuncio.imagem = file
             anuncio.save()
             return redirect('meus_anuncios')  # ou redireciona para 'home'
     else:
@@ -103,7 +117,19 @@ def editar_anuncio(request, anuncio_id):
     if request.method == 'POST':
         form = AnuncioForm(request.POST, request.FILES, instance=anuncio)
         if form.is_valid():
-            form.save()
+            anuncio = form.save(commit=False)
+            if request.FILES.get('imagem'):
+                file = request.FILES['imagem']
+                import time
+                filename = f"anuncios/{request.user.id}-{int(time.time())}-{file.name}"
+                try:
+                    url = upload_file_to_supabase(os.environ.get('SUPABASE_BUCKET', 'media'), file, filename)
+                    anuncio.imagem_url = url
+                    anuncio.imagem = None
+                except Exception as e:
+                    # fallback: keep local imagem field
+                    pass
+            anuncio.save()
             return redirect('meus_anuncios')
     else:
         form = AnuncioForm(instance=anuncio)

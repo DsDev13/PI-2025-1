@@ -15,6 +15,7 @@ class Anuncio(models.Model):
     descricao = models.TextField()
     categoria = models.CharField(max_length=20, choices=CATEGORIAS)
     imagem = models.ImageField(upload_to='anuncios/', null=True, blank=True)
+    imagem_url = models.URLField(max_length=1000, null=True, blank=True)
     data_criacao = models.DateTimeField(auto_now_add=True)
     endereco_exibicao = models.CharField(
         max_length=255,

@@ -1,0 +1,4 @@
+# Mark image files as binary to avoid any EOL normalization issues
+apconect/static/apconect/img/*.png binary
+apconect/static/apconect/img/*.jpg binary
+apconect/static/apconect/img/*.jpeg binary

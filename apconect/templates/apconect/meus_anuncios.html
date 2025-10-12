@@ -7,7 +7,9 @@
     <div class="cards">
       {% for anuncio in anuncios %}
         <div class="card anuncio">
-          {% if anuncio.imagem %}
+          {% if anuncio.imagem_url %}
+            <img src="{{ anuncio.imagem_url }}" alt="{{ anuncio.titulo }}" class="card-img">
+          {% elif anuncio.imagem %}
             <img src="{{ anuncio.imagem.url }}" alt="{{ anuncio.titulo }}" class="card-img">
           {% endif %}
 

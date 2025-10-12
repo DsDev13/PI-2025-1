@@ -14,7 +14,9 @@
       {% for anuncio in anuncios %}
         <section class="card anuncio" role="listitem" aria-labelledby="anuncio-titulo-{{ anuncio.id }}">
           <a href="{% url 'anuncio_detalhe' anuncio.id %}" style="text-decoration:none;color:inherit;cursor:pointer;display:block;outline:none;" aria-labelledby="anuncio-titulo-{{ anuncio.id }}" tabindex="2">
-            {% if anuncio.imagem %}
+            {% if anuncio.imagem_url %}
+              <img src="{{ anuncio.imagem_url }}" alt="Imagem do anúncio {{ anuncio.titulo }}" class="card-img">
+            {% elif anuncio.imagem %}
               <img src="{{ anuncio.imagem.url }}" alt="Imagem do anúncio {{ anuncio.titulo }}" class="card-img">
             {% endif %}
             <h3 id="anuncio-titulo-{{ anuncio.id }}">{{ anuncio.titulo }}</h3>
