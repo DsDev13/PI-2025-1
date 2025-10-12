@@ -38,7 +38,7 @@
             <nav class="card-actions" aria-label="Ações do anúncio {{ anuncio.titulo }}">
               <a href="{% url 'editar_anuncio' anuncio.id %}" class="btn-editar" aria-label="Editar anúncio {{ anuncio.titulo }}" tabindex="3">Editar</a>
               <a href="{% url 'deletar_anuncio' anuncio.id %}" class="btn-excluir" aria-label="Excluir anúncio {{ anuncio.titulo }}" tabindex="4">Excluir</a>
-              <a href="{% url 'chat_anuncio' anuncio.id %}" class="btn-chat" aria-label="Abrir chat do anúncio {{ anuncio.titulo }}" tabindex="5">Chat</a>
+              <a href="{% url 'chat_anuncio' anuncio.id %}" class="btn-editar" aria-label="Abrir chat do anúncio {{ anuncio.titulo }}" tabindex="5">Chat</a>
             </nav>
           {% endif %}
         </section>
